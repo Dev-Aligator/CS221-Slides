@@ -108,8 +108,55 @@
 	
 
 \end{frame}
+
+
 %------------------------------------------------
 
+
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Add-one estimation}
+        
+        {\Large Unsmoothed maximum likelihood estimate} \vspace{-2em}
+        {\Large
+        \begin{center} 
+            \[ P(w_i) = \frac{c_i}{N} \]
+        \end{center}
+        }
+        {\Large Laplace smoothing merely adds one to each count:} \vspace{-2em}
+        {\Large
+        \begin{center} 
+            \[ P_{Laplace} (w_i) = \frac{c_i + 1}{N + V} \]
+        \end{center}
+        }
+\end{frame}
+    
+%------------------------------------------------
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Add-one estimation}
+        
+        {\Large It is convenient to describe how a smoothing algorithm affects the numerator, by defining an adjusted count $c^*$: 
+        } \vspace{-2em}
+        {\Large
+        \begin{center} 
+            \[ c^*_i = (c_i + 1) \frac{N}{N + V} \]
+        \end{center}
+        }
+
+        \begin{block}{}
+            A related way to view smoothing is as discounting (lowering) some non-zero counts in order to get the probability mass that will be assigned to the zero counts: 
+        \end{block} \vspace{-2em}
+        {\Large
+        \begin{center} 
+            \[ d_c = \frac{c^*}{c} \]
+        \end{center}
+        }
+\end{frame}
+
+%------------------------------------------------
 
 
 \begin{frame}
@@ -135,34 +182,56 @@ Just add one to all the counts!
     \end{itemize}
 \end{frame}
 
-
 %------------------------------------------------
 \begin{frame}
-\onehalfspacing
-	\frametitle{Maximum Likelihood Estimates}
-    \begin{block}{The maximum likelihood estimate} % Block without title
-		\begin{itemize}
-            \item of some parameter of a model M from a training set T
-            \item maximizes the likelihood of the training set T given the model M
-        \end{itemize}
-	\end{block}
-
-    {\large Suppose “bagel” occurs 400 times in a corpus of a million words}    \vspace{1em}
-
-
-    {\large What is the probability that a random word from some other text will be “bagel”?}  \vspace{-2em}
-
-    \begin{center} 
-        \[ \text{MLE estimate is} \hspace{3} 400/1,000,000 = .0004 \]
-      \end{center}
-    
-    {\large This may be a bad estimate for some other corpus}
-    \begin{itemize}
-        \item But it is the \textbf{estimate} that makes it \textbf{most likely} that “bagel” will occur 400 times in a
-        million word corpus.
-    \end{itemize}
-
+    \onehalfspacing
+        \frametitle{Berkeley Restaurant Corpus}
+        \begin{minipage}{0.3\textwidth}
+            \begin{block}{}
+                \item Raw bigram counts
+            \end{block}
+        \end{minipage}
+        
+        \bigskip
+            \begin{figure}
+                \centering
+                \includegraphics [scale=0.6] {raw_bigram_counts.png}
+                \caption{Bigram counts for eight of the words (out of V = 1446) in the Berkeley Restau-
+                rant Project corpus of 9332 sentences. Zero counts are in gray.}
+            \end{figure}
+        
 \end{frame}
+%------------------------------------------------
+
+
+
+%------------------------------------------------
+% \begin{frame}
+% \onehalfspacing
+% 	\frametitle{Maximum Likelihood Estimates}
+%     \begin{block}{The maximum likelihood estimate} % Block without title
+% 		\begin{itemize}
+%             \item of some parameter of a model M from a training set T
+%             \item maximizes the likelihood of the training set T given the model M
+%         \end{itemize}
+% 	\end{block}
+
+%     {\large Suppose “bagel” occurs 400 times in a corpus of a million words}    \vspace{1em}
+
+
+%     {\large What is the probability that a random word from some other text will be “bagel”?}  \vspace{-2em}
+
+%     \begin{center} 
+%         \[ \text{MLE estimate is} \hspace{3} 400/1,000,000 = .0004 \]
+%       \end{center}
+    
+%     {\large This may be a bad estimate for some other corpus}
+%     \begin{itemize}
+%         \item But it is the \textbf{estimate} that makes it \textbf{most likely} that “bagel” will occur 400 times in a
+%         million word corpus.
+%     \end{itemize}
+
+% \end{frame}
 
 
 %------------------------------------------------
@@ -214,8 +283,9 @@ Just add one to all the counts!
         
             \begin{figure}
                 \centering
-                \includegraphics [scale=0.45] {laplace_smoothed_bigrams.png}
-                
+                \includegraphics [scale=0.5] {add_one_reconsituted_counts.png}
+                \caption{Add-one reconstituted counts for eight words (of V = 1446) in the BeRP corpus
+                of 9332 sentences. Previously-zero counts are in gray}
             \end{figure}
     \end{frame}
 %------------------------------------------------
@@ -231,11 +301,30 @@ Just add one to all the counts!
 	\begin{figure}[h]
         \centering
         \includegraphics [scale=0.45] {raw_bigram_counts.png}
-        \includegraphics [scale=0.45] {laplace_smoothed_bigrams.png}
+        \includegraphics [scale=0.45] {add_one_reconsituted_counts.png}
     \end{figure}
 \end{frame}
 
 %------------------------------------------------
+\subsection{Add-k smoothing}
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Add-k smoothing}
+        {\Large Instead of adding 1 to each count, we add a \textbf{fractional} count $k$ (.5? .05? .01?). } \vspace{-2em}
+
+        \begin{center} 
+            \[ P^*_{Add-k} (w_n | w_{n-1}) = \frac{C(w_{n-1} w_n) + k}{C(w_{n-1} + kV)} \]
+          \end{center}
+
+       \begin{block}{}
+        Add-k smoothing requires that we have a method for choosing $k$; this can be done, for example, by optimizing on a \textbf{devset}.
+
+       \end{block}
+    \end{frame}
+    
+%------------------------------------------------
+
+
 \begin{frame}
 \onehalfspacing
 	\frametitle{Add-1 estimation is a blunt instrument}
@@ -284,11 +373,11 @@ Just add one to all the counts!
     
         \bigskip
 
-        \begin{minipage}{0.4\textwidth}
-            \begin{block}{}
-                Interpolation works better
-            \end{block}
-        \end{minipage}
+        % \begin{minipage}{0.4\textwidth}
+        %     \begin{block}{}
+        %         Interpolation works better
+        %     \end{block}
+        % \end{minipage}
        
     \end{frame}
 
@@ -351,8 +440,41 @@ Just add one to all the counts!
     
     %------------------------------------------------
 
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Backoff}
+        \begin{block}{In a \textbf{backoff} n-gram model}
+            \begin{itemize}
+                \item If the n-gram we need has zero counts, we approximate it by backing off to the (n-1)-gram.
+                \item We have to discount the higher-order n-grams to save some probability mass for the lower order n-grams.
+                \item If we don’t, the total probability assigned to all possible strings by the language model would be greater than 1.
+            \end{itemize}
+        \end{block}
+    
+        
+\end{frame}
+
+%------------------------------------------------
 
 
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Katz Backoff}
+        {\Large We’ll need a function alpha to distribute this probability mass to the lower order n-grams.
+        }
+
+        \begin{equation*}
+            P_{BO} (w_n | w_{n-N+1:n-1})=
+            \begin{cases}
+              P^*(w_n | w_{n-N+1:n-1}), & \hspace{-5em} \text{if}\ C(w_{n-N+1:n}) > 0 \\
+              \alpha(w_{n-N+1:n-1}) P_{BO} (w_n | w_{n-N+2:n-1}), & \text{otherwise}
+            \end{cases}
+          \end{equation}
+    
+        
+\end{frame}
+
+%------------------------------------------------
 
 
 \onehalfspacing
