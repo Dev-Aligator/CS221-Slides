@@ -7,7 +7,9 @@
 \usepackage{bm}
 \usepackage{physics}
 \usepackage{booktabs}
+\usepackage{setspace}
 \usetheme{Madrid}
+\useinnertheme{circles}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -20,7 +22,6 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{headline}{}
 \setbeamercolor{huge text}{fg=white}
-%\setbeamercovered{transparent}
 \setbeamertemplate{footline}{
     \leavevmode%
     \hbox{%
@@ -47,28 +48,247 @@
 % \end{frame}
 %-------------------------------------------------------------------%
 
-\section{3.4: Generalization and Zeros}
-% \begin{frame}
-% 	\frametitle{Table of Contents} % Slide title, remove this command for no title
-% 	\tableofcontents[currentsection, subsectionstyle=hide]
-% \end{frame}
 
 \begin{frame}
-    \bigskip
-    \color{blue} \Huge \textbf{5.4 Generalization and Zeros} 
+    \doublespacing
+        \frametitle{Presentation Overview} % Slide title, remove this command for no title
+        
+        \tableofcontents % Output the table of contents (all sections on one slide)
+        %\tableofcontents[pausesections] % Output the table of contents (break sections up across separate slides)
 \end{frame}
+    
+    %----------------------------------------------------------------------------------------
+    %	PRESENTATION BODY SLIDES
+    %----------------------------------------------------------------------------------------
+    
+    \section{3.3 Generalization and Zeros} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
+    %------------------------------------------------
+    \begin{frame}
+        \doublespacing
+            \frametitle{Presentation Overview} % Slide title, remove this command for no title
+            
+            \tableofcontents[currentsection] % Output the table of contents (all sections on one slide)
+            %\tableofcontents[pausesections] % Output the table of contents (break sections up across separate slides)
+    \end{frame}
+    %------------------------------------------------
+
+
+    \begin{frame}
+        \frametitle{Generalization and Zeros}
+     
+            N-gram model is dependent on training corpus.
+            
+            \begin{block}{Implication}
+                 \begin{itemize}
+                   \item Probabilities encode specific facts about training corpus.
+                   \item N-grams do better job of modeling as we increase N.
+                \end{itemize}
+            \end{block}
+        
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+        \frametitle{Approximating Shakespeare}
+            \begin{figure}
+                \centering
+                \includegraphics [scale=0.48] {fig3.4.jpg}
+                \label{fig:enter-label}
+            \end{figure}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+        \frametitle{Shakespeare as corpus}
+        
+            \begin{block}{}
+                 \begin{itemize}
+                   \item $N = 884,647$
+                   \item $V = 29,066$
+                   \item Possible bigrams $V^2 = 844,000,000$
+                   \item Possible 4-grams $V^4 = 7 \times 10^{17}$
+                \end{itemize}
+            \end{block}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+        \frametitle{The Wall Street Journal}
+            \begin{figure}
+                \centering
+                \includegraphics [scale=0.57] {fig3.5.jpg}
+                \label{fig:enter-label}
+            \end{figure}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+        \frametitle{Generalization and Zeros}
+            \begin{block}{}
+                \textbf{P:} Statistical models are useless as predictors if training sets and test sets are different.
+            \end{block}
+            \Large{How should we deal with this problem when building n-gram models?}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+            \frametitle{Generalization and Zeros}
+        \begin{block}{}
+                \textbf{S1:} Use a training corpus that has a similar \textbf{genre} to the task.
+        \end{block}
+            \pause
+        \begin{exampleblock}{Example}
+            \begin{itemize}
+                \item translating legal documents - legal documents
+                    \item question-answering system - questions
+            \end{itemize}
+        \end{exampleblock}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+            \frametitle{Generalization and Zeros}
+        \begin{block}{}
+                \textbf{S2:} Get training data in the appropriate \textbf{dialect} or \textbf{variety}, especially when processing social media posts or spoken transcripts.
+        \end{block}
+            \pause
+        \begin{exampleblock}{Example}
+            Some tweets use features of \textbf{African American Language} (\textbf{AAL})
+            \begin{itemize}
+                \item (3.19) Bored af den my phone finna die!!!
+                    \item (3.20) @username R u a wizard or wat gan sef: in d mornin - u tweet, afternoon - u tweet, nyt gan u dey tweet. beta get ur IT placement wiv twitter
+            \end{itemize}
+        \end{exampleblock}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+            \frametitle{Zeros}
+        \begin{alertblock}{}
+            Our models may still be subject to the problem of \textbf{sparsity}.
+        \end{alertblock}
+            \pause
+        \begin{exampleblock}{Example}
+        \begin{columns}[t] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+            \begin{column}{0.45\textwidth} % Left column width
+                \textbf{Training set:} \\
+                denied the allegations \\
+                    denied the speculation \\
+                    denied the rumors \\
+                    denied the report
+            \end{column}
+            \begin{column}{0.5\textwidth} % Right column width
+                \textbf{Test set:} \\
+                denied the offer \\
+                    denied the loan
+            \end{column}
+        \end{columns}
+        \centering $P(\text{offer} | \text{denied the}) = 0$
+        \end{exampleblock}
+            \pause
+            \begin{block}{These \textbf{zeros}:}
+                \begin{itemize}
+                    \item things that don’t ever occur in the training set
+                    \item but do occur in the test set
+                \end{itemize}
+        \end{block}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+            \frametitle{Reasons}
+        \begin{block}{\textit{First,}}
+                \begin{itemize}
+                    \item Underestimate the probability of all sorts of words that might occur
+                    \item Hurt the performance of any application we want to run on this data
+                \end{itemize}
+        \end{block}
+            \pause
+        \begin{block}{\textit{Second,}}
+                \begin{itemize}
+                    \item Zero probability n-grams, the entire probability of the test set is 0.
+                    \item Can’t compute perplexity (can’t divide by 0)
+                \end{itemize}
+        \end{block}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \subsection{3.3.1 Unknown Words}
+    \begin{frame}
+        \frametitle{Unknown Words}
+        \begin{itemize}
+            \item Stipulating that we already know all the words that can occur.
+            \item In \textbf{closed vocabulary} system the test set can only contain words from known lexicon.
+        \end{itemize}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+        \frametitle{Unknown Words}
+        \begin{itemize}
+            \item In real situations, we have to deal with \textbf{unknown} words, or \textbf{out of vocabulary} (\textbf{OOV}) words.
+            \begin{itemize}
+                \item \textbf{OOV rate}: The percentage of OOV words that appear in test set
+            \end{itemize}
+            \item Create \textbf{open vocabulary} system: model potential unknown words in test set by adding a pseudo-word called $<UNK>$.
+        \end{itemize}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+            \frametitle{Train the probabilities of the unknown word model $<UNK>$}
+        \textit{\textbf{The first one:}} \\
+            Turn the problem back into a closed vocabulary one
+            \pause
+                \begin{enumerate}
+                    \item \textbf{Choose} a vocabulary (word list) that is fixed in advance.
+                    \pause
+                    \item \textbf{Convert} in the training set any OOV word to the unknown word token $<UNK>$ in a text normalization step.
+                    \pause
+                    \item \textbf{Estimate} the probabilities for $<UNK>$ from its counts just like any other regular word in the training set.
+                \end{enumerate}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+            \frametitle{Train the probabilities of the unknown word model $<UNK>$}
+        \textit{\textbf{The second alternative:}} \\
+            \begin{itemize}
+                \item We don’t have a prior vocabulary in advance.
+                \item Create a vocabulary implicitly.
+                \item Replace words in the training data by $<UNK>$ based on their frequency.
+            \end{itemize}
+    \end{frame}
+    
+    %------------------------------------------------
+    
+    \begin{frame}
+        \frametitle{Unknown Words}
+        \begin{itemize}
+            \item Choice of $<UNK>$ affects metrics like perplexity.
+            \item Small vocabulary with high $<UNK>$ probability leads to low perplexity.
+            \item Perplexities can only be compared across language models with the same vocabularies.
+        \end{itemize}
+    \end{frame}
 
 %-------------------------------------------------------------------%
 
-\section{3.5: Smoothing} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
-% \begin{frame}
-% 	\frametitle{Presentation Overview} % Slide title, remove this command for no title
-% 	\tableofcontents[currentsection, subsectionstyle=hide]
-% \end{frame}
-\subsection{Laplace Smoothing}
+\section{3.4 Smoothing} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
 \begin{frame}
-    \bigskip
-    \color{blue} \Huge \textbf{3.5 Smoothing} 
+	\frametitle{Presentation Overview} % Slide title, remove this command for no title
+	\tableofcontents[currentsection]
 \end{frame}
 
 %------------------------------------------------
@@ -77,14 +297,14 @@
 	\frametitle{The intuition of smoothing}
     \begin{minipage}{0.45\textwidth}  % Adjust the width as needed
         \begin{block}{When we have sparse statistics:} % Block without title
-            \hspace{30} $P(w \hspace{2} | \hspace{2} \text{denied the})$ \\
-            \hspace{35} 3 allegations \\
-            \hspace{35} 2 reports \\
-            \hspace{35} 1 claims \\
-            \hspace{35} 1 request \\
-            \hspace{35} 7 total
+            \hspace{30pt} $P(w \hspace{2pt} | \hspace{2pt} \text{denied the})$ \\
+            \hspace{35pt} 3 allegations \\
+            \hspace{35pt} 2 reports \\
+            \hspace{35pt} 1 claims \\
+            \hspace{35pt} 1 request \\
+            \hspace{35pt} 7 total
         \end{block}
-    \end{minipage}\hspace{10}
+    \end{minipage}\hspace{10pt}
     \begin{minipage}{0.45\textwidth}  % Adjust the width as needed
             \centering
             \includegraphics[scale=0.5]{sparse_statistics.png}
@@ -92,15 +312,15 @@
 
     \begin{minipage}{0.45\textwidth}  % Adjust the width as needed
         \begin{block}{Steal probability mass} % Block without title
-            \hspace{30} $P(w \hspace{2} | \hspace{2} \text{denied the})$ \\
-            \hspace{35} 2.5 allegations \\
-            \hspace{35} 1.5 reports \\
-            \hspace{35} 0.5 claims \\
-            \hspace{35} 0.5 request \\
-            \hspace{35} 2 request \\
-            \hspace{35} 7 total
+            \hspace{30pt} $P(w \hspace{2pt} | \hspace{2pt} \text{denied the})$ \\
+            \hspace{35pt} 2.5 allegations \\
+            \hspace{35pt} 1.5 reports \\
+            \hspace{35pt} 0.5 claims \\
+            \hspace{35pt} 0.5 request \\
+            \hspace{35pt} 2 request \\
+            \hspace{35pt} 7 total
         \end{block}
-    \end{minipage}\hspace{10}
+    \end{minipage}\hspace{10pt}
     \begin{minipage}{0.45\textwidth}  % Adjust the width as needed
             \centering
             \includegraphics[scale=0.5]{steal_probability_mass.png}
@@ -188,7 +408,7 @@ Just add one to all the counts!
         \frametitle{Berkeley Restaurant Corpus}
         \begin{minipage}{0.3\textwidth}
             \begin{block}{}
-                \item Raw bigram counts
+                Raw bigram counts
             \end{block}
         \end{minipage}
         
@@ -242,7 +462,7 @@ Just add one to all the counts!
 	\frametitle{Berkeley Restaurant Corpus}
     \begin{minipage}{0.5\textwidth}
         \begin{block}{}
-            \item Laplace smoothed bigram counts
+            Laplace smoothed bigram counts
         \end{block}
     \end{minipage}
 	
@@ -306,7 +526,7 @@ Just add one to all the counts!
 \end{frame}
 
 %------------------------------------------------
-\subsection{Add-k smoothing}
+\subsection{3.4.2 Add-k smoothing}
 \begin{frame}
     \onehalfspacing
         \frametitle{Add-k smoothing}
@@ -344,7 +564,7 @@ Just add one to all the counts!
 \end{frame}
 
 %------------------------------------------------
-\subsection{Backoff and Interpolation}
+\subsection{3.4.3 Backoff and Interpolation}
 \begin{frame}
     \onehalfspacing
         \frametitle{Backoff and Interpolation}
@@ -361,11 +581,11 @@ Just add one to all the counts!
                     \item Otherwise bigram or unigram
                 \end{itemize}
             \end{block}
-        \end{minipage} \hspace{10}
+        \end{minipage} \hspace{10pt}
         \begin{minipage}{0.45\textwidth}
             \begin{block}{\center{Interpolation}}
                 \begin{itemize}
-                    \item Mix unigram, bigram, trigram \\ \vspace{5}
+                    \item Mix unigram, bigram, trigram \\ \vspace{5pt}
                     \hphantom{fndfjndnjfjnd}
                 \end{itemize}
             \end{block}
@@ -382,36 +602,34 @@ Just add one to all the counts!
     \end{frame}
 
 %------------------------------------------------
-
 \begin{frame}
     \onehalfspacing
-        \frametitle{Liner Interpolation}
-        {\Large Simple interpolation}
-        \begin{minipage}{0.65\textwidth}
-        \begin{center} 
-            \[ \hat{P}(w_n | w_{n-2} w_{n-1}) = \lambda_1 P(w_n | w_{n-2} w_{n-1}) \\ \vspace{-1em}
-                                                \hspace{7em} + \lambda_2 P(w_n | w_{n-1}) \\ 
-                                                \hspace{4.5em} + \lambda_3 P(w_n) \]
-          \end{center}
-        \end{minipage}
-        \hspace{10}
-        \begin{minipage}{0.3\textwidth}
-            \vspace{2em}
-            \centering
-            \includegraphics[scale=0.5]{sum_all_lambdas.png}
-        \end{minipage}
-
-        \vspace{3em}
-        {\Large Lambdas conditional on context:}
-        \begin{minipage}{0.75\textwidth}
-        \begin{center} 
-            \[ \hat{P}(w_n | w_{n-2} w_{n-1}) = \lambda_1 (w^{n-1}_{n-2}) P(w_n | w_{n-2} w_{n-1}) \\ \vspace{-0.5em}
-                                                \hspace{7em} + \lambda_2 (w^{n-1}_{n-2}) P(w_n | w_{n-1}) \\ \vspace{0.5em}
-                                                \hspace{4.5em} + \lambda_3 (w^{n-1}_{n-2}) P(w_n) \]
-          \end{center}
-        \end{minipage}
+    \frametitle{Linear Interpolation}
     
-       
+    \Large Simple Interpolation
+    
+    \begin{minipage}{0.65\textwidth}
+        \small
+        \[ \hat{P}(w_n | w_{n-2} w_{n-1}) = \lambda_1 P(w_n | w_{n-2} w_{n-1}) \]
+        \[ \hspace{7em} + \lambda_2 P(w_n | w_{n-1}) \]
+        \[ \hspace{4.5em} + \lambda_3 P(w_n) \]
+    \end{minipage}
+    \begin{minipage}{0.3\textwidth}
+        \vspace{2em}
+        \centering
+        \includegraphics[scale=0.5]{sum_all_lambdas.png}
+    \end{minipage}
+
+    \vspace{3em}
+    
+    \Large Lambdas Conditional on Context
+
+    \begin{minipage}{0.75\textwidth}
+        \small
+        \[ \hat{P}(w_n | w_{n-2} w_{n-1}) = \lambda_1 (w^{n-1}_{n-2}) P(w_n | w_{n-2} w_{n-1}) \]
+        \[ \hspace{7em} + \lambda_2 (w^{n-1}_{n-2}) P(w_n | w_{n-1}) \]
+        \[ \hspace{4.5em} + \lambda_3 (w^{n-1}_{n-2}) P(w_n) \]
+    \end{minipage}
 \end{frame}
     
 
@@ -469,7 +687,7 @@ Just add one to all the counts!
               P^*(w_n | w_{n-N+1:n-1}), & \hspace{-5em} \text{if}\ C(w_{n-N+1:n}) > 0 \\
               \alpha(w_{n-N+1:n-1}) P_{BO} (w_n | w_{n-N+2:n-1}), & \text{otherwise}
             \end{cases}
-          \end{equation}
+          \end{equation*}
     
         
 \end{frame}
@@ -487,9 +705,8 @@ Just add one to all the counts!
 		\bibitem[Stanford]{p1}
 			Speech and Language Processing (3rd ed. draft)
 			\newblock Dan Jurafsky and James H. Martin
-			\newblock Part I: Fundamental Algorithms, \emph{Chapter 3: N-gram Language Models	}
+			\newblock Part I: Fundamental Algorithms, \emph{Chapter 3: 	N-gram Language Models}
 			
-		
 	\end{thebibliography}
 \end{frame}
 
