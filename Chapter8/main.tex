@@ -1,0 +1,359 @@
+\documentclass[13.5pt,aspecratio=169]{beamer}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usetheme{Madrid}
+\useinnertheme{circles}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\graphicspath{{Images/}{./}} 
+\usetheme{Copenhagen}
+%\usecolortheme{beaver}
+\title{CHAPTER 8: Sequence Labeling for Parts of
+Speech and Named Entities}
+\author[Group 5]{\textit{Instructor: PhD. Nguyen Thi Quy}\\ \bigskip \textbf{Group 5: 8.3 - 8.4.3}}
+\date{\today}
+\definecolor{mylightgreencolor}{RGB}{144, 238, 144}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamercolor{huge text}{fg=white}
+\setbeamertemplate{footline}{
+    \leavevmode%
+    \hbox{%
+        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+            \usebeamerfont{author in head/foot}\insertshortauthor
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+            \usebeamerfont{title in head/foot}\insertshorttitle
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+            \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+            \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+        \end{beamercolorbox}%
+    }%
+    \vskip0pt%
+}
+
+\begin{document}
+\maketitle
+
+% \begin{frame}
+% 	\frametitle{Table of Contents} % Slide title, remove this command for no title
+% 	\tableofcontents[subsectionstyle=hide]
+% \end{frame}
+%-------------------------------------------------------------------%
+
+
+\begin{frame}
+    \doublespacing
+        \frametitle{Presentation Overview} % Slide title, remove this command for no title
+        
+        \tableofcontents % Output the table of contents (all sections on one slide)
+        %\tableofcontents[pausesections] % Output the table of contents (break sections up across separate slides)
+\end{frame}
+    
+    %----------------------------------------------------------------------------------------
+    %	PRESENTATION BODY SLIDES
+    %----------------------------------------------------------------------------------------
+    
+    \section{8.3 Named Entities and Named Entity Tagging} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
+    %------------------------------------------------
+    \begin{frame}
+        \doublespacing
+            \frametitle{Presentation Overview} % Slide title, remove this command for no title
+            
+            \tableofcontents[currentsection] % Output the table of contents (all sections on one slide)
+            %\tableofcontents[pausesections] % Output the table of contents (break sections up across separate slides)
+    \end{frame}
+
+%-------------------------------------------------------------------%
+
+\section{8.4 HMM Part-of-Speech Tagging} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
+\begin{frame}
+	\frametitle{Presentation Overview} % Slide title, remove this command for no title
+	\tableofcontents[currentsection]
+\end{frame}
+
+%------------------------------------------------
+% {
+% \begin{frame}
+% 	\frametitle{Methods for POS Tagging and NER}
+%     \setbeamertemplate{footline}{boo \insertframenumber}
+%     \begin{minipage}{0.5\textwidth}  % Adjust the width as needed
+%         {
+%         \setbeamercolor{block body}{bg=mylightgreencolor} % Block body color
+%         \begin{block}{} % Block without title
+%             HMM – Hidden Markov chains
+%         \end{block}
+%         }
+%         \begin{block}{} % Block without title
+%             CRF – Conditional Random Fields
+%         \end{block}
+        
+%     \end{minipage}\hspace{10pt}
+%     \begin{minipage}{0.45\textwidth}  % Adjust the width as needed
+%             \centering
+%             \includegraphics[scale=0.3]{POS-Tagging.jpg}
+%     \end{minipage}
+	
+    
+% \end{frame}
+% }
+
+%------------------------------------------------
+\subsection{8.4.1 Markov Chains}
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Introducing HMM}
+        
+        \begin{block}{The Hidden Markov Model - HMM}
+            \begin{itemize}
+                \item A statistical model with unknown parameters that must be determined from known parameters.
+                \item Extends from the mathematical model: \textbf{Markov Chains}.
+            \end{itemize}
+        \end{block}
+
+        {
+            \setbeamercolor{block title}{bg=mylightgreencolor, fg=black} % Block title color
+            \begin{block}{Applications}
+                \begin{minipage}{0.45\textwidth}
+                    \begin{itemize}
+                        \item Sequence labeling: NER, POS tagging
+                        \item Speech recognition
+                    \end{itemize}
+                \end{minipage}
+                \begin{minipage}{0.45\textwidth}
+                    \begin{itemize}
+                        \item Optical Character Recognition (OCR)
+                        \item Bioinformatics
+                    \end{itemize}
+                \end{minipage}
+            \end{block}
+        }
+\end{frame}
+    
+%------------------------------------------------
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Markov chains}
+    \begin{minipage}{0.62\textwidth}
+
+        \begin{block}{Markov chains}
+            A model that tells us something about the probabilities of sequences of random variables, states
+        \end{block}
+
+        \begin{itemize}
+            \item Sequence of states with a temporal order
+            \item States can take values from any discrete set of values.
+            \item \textbf{Markov assumption}:
+            When predicting the future, the past doesn’t matter
+        \end{itemize}
+        \includegraphics[width=1\textwidth]{Rain_Prediction.png}
+    \end{minipage}
+    \begin{minipage}{0.3\textwidth}
+        \begin{figure}
+            \includegraphics[scale=0.5]{AAMarkov.jpg}
+            \caption{AA. Markov}
+        \end{figure}
+        
+    \end{minipage}
+        
+\end{frame}
+
+%------------------------------------------------
+
+
+\begin{frame}
+\onehalfspacing
+	\frametitle{Markov assumption}
+    {\large When predicting the future, the past doesn’t matter, only the present} \vspace{2em}
+
+    \includegraphics[width=0.62\textwidth]{Rain_Prediction.png}
+
+    \begin{center}
+        \textbf{Markov assumption}: \hspace{1em} $P(q_i = a | q_1 ... q_{i-1}) = P(q_1 = a | q_{i-1})$
+    \end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Markov chains}
+        
+        \begin{block}{Components of the Markov chains}
+            \begin{itemize}
+                \item $Q = q_1 q_2 ... q_n$: a set of N \textbf{states}
+                \item $A = a_{11} a_{12} ... a_{N1} ... a_{NN}$: a \textbf{transition probability matrix} A, each $a_{ij}$ representing the probability of moving from state $i$ to state $j$
+                \item $\pi = \pi_1, \pi_2,...,\pi_n$:  an \textbf{initial probability distribution} over states. $\pi_i$ is the
+                probability that the Markov chain will start in state $i$.
+            \end{itemize}
+        \end{block}
+        
+\end{frame}
+%------------------------------------------------
+\subsection{8.4.2 The Hidden Markov Model}
+
+\begin{frame}
+\onehalfspacing
+	\frametitle{The Hidden Markov Model}
+        \begin{block}{}
+            A hidden Markov model (HMM) allows us to talk about both observed events and hidden events.
+        \end{block}
+
+        {\large{Unobservable Events:}
+        \begin{itemize}
+            \item Part-of-speech
+            \item Entity type
+        \end{itemize}   
+        }
+        \begin{figure}
+            \centering
+            \includegraphics [scale=0.7] {POS_Tagger.png}
+        \end{figure}
+	
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{The Hidden Markov Model}
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=0.45]{HMM_components.png}
+                \caption{ Components of Hidden Markov Model}
+            \end{figure}
+        
+    \end{frame}
+    %------------------------------------------------
+
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{First order Hidden Markov Model}
+        \begin{block}{A first-order HMM instantiates two simplifying assumptions}
+            \begin{enumerate}
+                \item The probability of a particular state depends
+                only on the previous state
+                \begin{center}
+                    \textbf{Markov Assumption:} \hspace{0.5em} $P(q_i | q_1,...q_{i-1}) = P(q_i | q_{i-1})$
+                \end{center}
+                \item The probability of an output observation depends only on the state that
+                produced it and not on any other states.
+                \begin{center}
+                    \textbf{Independence:} $P(o_i | q_1,...q_i,...,q_T, o_1,...o_i,...,o_T) = P(o_i | q_i)$
+                \end{center}
+            \end{enumerate}
+        \end{block}
+        
+    \end{frame}
+%------------------------------------------------
+\subsection{The components of an HMM tagger}
+\begin{frame}
+    \onehalfspacing
+        \frametitle{HMM Tagger}
+        \begin{block}{}
+            A model in Natural Language Processing based on HMM, used for labeling elements in a sequence.
+        \end{block}
+        HMM Tagger consists of 2 components:
+        \begin{enumerate}
+            \item A: The probability of a tag occurring given the previous tag
+            \item B: The probability, given a tag, that it will be associated with a given word
+        \end{enumerate}
+    \end{frame}
+%------------------------------------------------
+\begin{frame}
+\onehalfspacing
+	\frametitle{HMM Tagger}
+    {\Large The probability of a tag occurring given the previous tag
+    \begin{center}
+        $P(t_i | t_{i-1}) = \dfrac{C(t_{i-1}, t_i)}{C(t_{i-1})}$
+    \end{center}}
+
+    {
+        \setbeamercolor{block title}{bg=mylightgreencolor, fg=black} % Block title color
+        \begin{block}{Example - In the WSJ corpus:}
+            \begin{itemize}
+                \item MD occurs \textbf{13124} times
+                \item MD is followed
+                by VB \textbf{10471} times
+            \end{itemize}
+            Tag transition probability MD - VB:
+            \begin{center}
+                $ P(VB | MD) = \dfrac{C(MD, VB)}{C(MD)} = \dfrac{10471}{13124} = 0.8 $
+            \end{center}
+        \end{block}
+    }
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+    \onehalfspacing
+        \frametitle{HMM Tagger}
+        {\Large The probability of a word occurring associated with a tag
+        \begin{center}
+            $P(w_i | t_i) = \dfrac{C(t_i, w_i)}{C(t_i)}$
+        \end{center}}
+    
+        {
+            \setbeamercolor{block title}{bg=mylightgreencolor, fg=black} % Block title color
+            \begin{block}{Example - In the WSJ corpus:}
+                \begin{itemize}
+                    \item MD occurs \textbf{13124} times
+                    \item MD is associated
+                    with \textit{will} \textbf{4046} times
+                \end{itemize}
+                Tag transition probability MD - VB:
+                \begin{center}
+                    $ P(will | MD) = \dfrac{C(MD, will)}{C(MD)} = \dfrac{4046}{13124} = 0.31 $
+                \end{center}
+            \end{block}
+        }
+    \end{frame}
+
+%------------------------------------------------
+
+
+\onehalfspacing
+\begin{frame} % Use [allowframebreaks] to allow automatic splitting across slides if the content is too long
+	\frametitle{Reference}
+	
+	\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below, you may need to use multiple columns and/or reduce the font size further if you have many references
+		\footnotesize % Reduce the font size in the bibliography
+		
+		\bibitem[Stanford]{p1}
+			Speech and Language Processing (3rd ed. draft)
+			\newblock Dan Jurafsky and James H. Martin
+			\newblock Part I: Fundamental Algorithms, \emph{Chapter 8: Sequence Labeling for Parts of
+            Speech and Named Entities}
+			
+	\end{thebibliography}
+\end{frame}
+
+
+
+%	CLOSING SLIDE
+%----------------------------------------------------------------------------------------
+
+\begin{frame} % The optional argument 'plain' hides the headline and footline
+	\begin{center}
+		{\Huge Thanks for listening!}
+		
+		\bigskip\bigskip % Vertical whitespace
+		
+		{\LARGE Q\&A section}
+	\end{center}
+\end{frame}
+%------------------------------------------------
+
+
+\end{document}
