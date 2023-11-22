@@ -9,6 +9,7 @@
 \usepackage{booktabs}
 \usepackage{setspace}
 \usepackage{xcolor}
+\usepackage{wrapfig,lipsum}
 \usetheme{Madrid}
 \useinnertheme{circles}
 
@@ -76,6 +77,197 @@ Speech and Named Entities}
     \end{frame}
 
 %-------------------------------------------------------------------%
+
+
+\begin{frame}
+    \onehalfspacing
+        \frametitle{Named Entities}
+        
+        \begin{block}{} % Block without title
+                 {\textbf{Named entity}, in its core usage, means anything that can be referred to with a proper name. Most common 4 tags:}
+                    \begin{itemize}
+                        \item PER (Person): \color{blue} “Marie Curie” \color{black}
+                        \item LOC (Location): \color{blue} “New York City”  \color{black}
+                        \item ORG (Organization): \color{blue} “Stanford University” \color{black}
+                        \item GPE (Geo-Political Entity): \color{blue} "Boulder, Colorado" \color{black}
+                    \end{itemize}
+        \end{block}
+            \bigskip
+    \end{frame}
+    
+    %--------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+        \frametitle{Named Entities}
+        
+        \begin{block}{} % Block without title
+                 
+                    \begin{itemize}
+                        \item Often multi-word phrases
+    
+                        \item But the term is also extended to things that aren't entities: dates, times, prices
+                    \end{itemize}
+        \end{block}
+    \end{frame}
+    
+    
+    %------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+        \frametitle{Named Entity tagging}
+        \begin{block}{The task of named entity recognition (NER):}
+            \begin{itemize}
+                \item Find spans of text that constitute proper names
+                    \item Tag the type of the entity.          
+                \end{itemize}
+        \end{block}
+    \end{frame}
+    
+    
+    %------------------------------------------------
+    
+    
+    \begin{frame}
+    \onehalfspacing
+        \frametitle{NER output}
+        
+        \begin{block}{}
+            Citing high fuel prices, \color{blue}[ORG United Airlines] \color{black}said \color{blue} [TIME Friday] \color{black} it has increased fares by \color{blue} [MONEY \$ 6] \color{black} per round trip on flights to some cities also served by lower-cost carriers. \color{blue}[ORG American Airlines] \color{black}, a unit of \color{blue}[ORG AMR Corp.] \color{black}, immediately matched the move, spokesman \color{blue}[PER Tim Wagner] \color{black}said. \color{blue}[ORG United]\color{black}, a unit of \color{blue}[ORG UAL Corp.]\color{black}, said the increase took effect \color{blue}[TIME Thursday] \color{black} and applies to most routes where it competes against discount carriers, such as \color{blue}[LOC Chicago] \color{black} to \color{blue}[LOC Dallas] \color{black} and \color{blue}[ LOC Denver] \color{black}to \color{blue}[LOC San Francisco]\color{black}.
+        \end{block}	
+    \end{frame}
+    %------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+        \frametitle{Why NER?}	
+        \begin{block}{}
+            Sentiment analysis: consumer’s sentiment toward a particular company or person?
+            \\  \bigskip
+                 Question Answering: answer questions about an entity?
+              \\  \bigskip
+                 Information Extraction: Extracting facts about entities from text.
+        \end{block}	
+    \end{frame}
+    %------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+        \frametitle{Why NER is hard}	
+        \begin{block}{Segmentation}
+        \begin{itemize}
+            \item In POS tagging, no segmentation problem since each word gets one tag.
+                \item In NER we have to find and segment the entities!
+        \end{itemize}
+        \end{block}	
+     \begin{block}{Type ambiguity}
+         
+    \color{blue} [PER Washington] \color{black} was born into slavery on the farm of James Burroughs. \color{blue}[ORG Washington] \color{black}went up 2 games to 1 in the four-game series. \\ 
+    Blair arrived in \color{blue}[LOC Washington] \color{black} for what may well be his last state visit. In June, \color{blue}[GPE Washington] \color{black} passed a primary seatbelt law.
+     \end{block}
+    \end{frame}
+    %------------------------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+    
+        \frametitle{BIO Tagging}	
+        \color{blue}[PER Jane Villanueva] \color{black}of \color{blue}[ORG United]\color{black} , a unit of \color{blue}[ORG United Airlines Holding]\color{black} , said the fare applies to the \color{blue}[LOC Chicago]\color{black} route. 
+    \begin{center}
+    \renewcommand{\arraystretch}{0.83} % Default value: 1
+        \begin{tabular}{ |c|c| } 
+        \hline
+        \large Words &  \large BIO Label\\ 
+        \hline \small
+        Jane & \small B-PER \\ \small
+        Villanueva & \small I-PER \\ \small
+        of & \small O \\ \small
+        United & \small B-ORG \\ \small
+        Airlines & I-ORG \\ \small
+        Holding & I-ORG \\ \small
+        discussed & O \\ \small
+        the & \small O \\ \small
+        Chicago & \small B-LOC \\ \small
+        route & \small O \\ \small
+        . & \small O \\ 
+    \hline
+    \end{tabular}
+    \end{center}
+    \end{frame}
+    %------------------------------------------------------------------
+    \begin{frame}
+    \frametitle{BIO Tagging}	
+    \vspace{-100pt}
+    \hspace{10pt}
+        {* B: token that begins a span \\
+    \hspace{10pt} * I: tokens inside a span\\
+    \hspace{10pt} * O: tokens outside of any span \\
+    \hspace{10pt} * of tags (where n is entity types): \\
+    \hspace{10pt} * 1 O tag, \\
+    \hspace{10pt} * n B tags, \\
+    \hspace{10pt} * n I tags \\
+    \hspace{10pt} * total of 2n+1}
+    \vspace{-150pt}
+    \begin{wraptable}{r}{0cm}
+        \begin{tabular}[b]{|c|c|}
+        \hline
+        \large Words &  \large BIO Label\\ 
+        \hline \small
+        Jane & \small B-PER \\ \small
+        Villanueva & \small I-PER \\ \small
+        of & \small O \\ \small
+        United & \small B-ORG \\ \small
+        Airlines & I-ORG \\ \small
+        Holding & I-ORG \\ \small
+        discussed & O \\ \small
+        the & \small O \\ \small
+        Chicago & \small B-LOC \\ \small
+        route & \small O \\ \small
+        . & \small O \\ 
+    \hline
+    \end{tabular}
+    \end{wraptable} 
+    
+    \end{frame}
+    
+    %------------------------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+    
+        \frametitle{BIO Tagging variants: IO and BIOES}	
+        \color{blue}[PER Jane Villanueva] \color{black}of \color{blue}[ORG United]\color{black} , a unit of \color{blue}[ORG United Airlines Holding]\color{black} , said the fare applies to the \color{blue}[LOC Chicago]\color{black} route. 
+    \begin{center}
+    \renewcommand{\arraystretch}{0.83} % Default value: 1
+        \begin{tabular}{ |c|c|c|c| } 
+        \hline
+        \large Words &  \large IO Label & \large BIO Label & \large BIOES Label \\
+        \hline \small
+        Jane & \small I-PER &\small  B-PER &\small  B-PER \\  \small
+        Villanueva & \small I-PER &\small  I-PER &\textbf{} E-PER \\  \small
+        of & \small O &\small  O &\small  O\\  \small
+        United & \small I-ORG &\small  B-ORG &\small  B-ORG \\  \small
+        Airlines & \small I-ORG & I\small -ORG &\small  I-ORG \\  \small
+        Holding & \small I-ORG &\small  I-ORG &\small  E-ORG \\  \small
+        discussed & \small O &\small  O &\small  O\\  \small
+        the & \small O &\small  O &\small  O\\  \small
+        Chicago & \small I-LOC &\small  B-LOC &\small  S-LOC \\  \small
+        route & \small O &\small  O &\small  O\\  \small
+        . & \small O & \small O & \small O \\
+    \hline
+    \end{tabular}
+    \end{center}
+    \end{frame}
+    %------------------------------------------------------------------
+    \begin{frame}
+    \onehalfspacing
+    
+        \frametitle{Standard algorithms for NER}	
+        \begin{block}{}
+         \large   Supervised Machine Learning given a human-labeled training set of text annotated with tags
+        \begin{itemize}
+            \item Hidden Markov Models
+            \item Conditional Random Fields (CRF)/ Maximum Entropy Markov Models (MEMM)
+            \item Neural sequence models (RNNs or Transformers)
+            \item Large Language Models (like BERT), finetuned
+        \end{itemize}
+        \end{block}
+    \end{frame}
 
 \section{8.4 HMM Part-of-Speech Tagging} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
 \begin{frame}
@@ -271,12 +463,12 @@ Speech and Named Entities}
                 \begin{tabular}{c|cccc}
                     $ $ & $\pi$ & HOT & COLD & WARM \\
                     \hline
-                    HOT & 0.7 & 0.6 & 0.1 & 0.3 \\
-                    COLD & 0.1 & 0.3 & 0.8 & 0.1\\
+                    HOT & 0.1 & 0.6 & 0.1 & 0.3 \\
+                    COLD & 0.7 & 0.1 & 0.8 & 0.1\\
                     WARM & 0.2 & 0.3 & 0.1 & 0.6 \\
                 \end{tabular}
                 }
-                \item Initial probability distribution $\textcolor{red}{\pi} = [0.7,0.1,0.2]$
+                \item Initial probability distribution $\textcolor{red}{\pi} = [0.1,0.7,0.2]$
                 
             \end{itemize}
 
