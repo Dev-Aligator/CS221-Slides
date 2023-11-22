@@ -30,14 +30,13 @@ Speech and Named Entities}
 \setbeamertemplate{footline}{
     \leavevmode%
     \hbox{%
-        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \begin{beamercolorbox}[wd=.2\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
             \usebeamerfont{author in head/foot}\insertshortauthor
         \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \begin{beamercolorbox}[wd=.7\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
             \usebeamerfont{title in head/foot}\insertshorttitle
         \end{beamercolorbox}%
-        \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
-            \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+        \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
             \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
         \end{beamercolorbox}%
     }%
@@ -132,7 +131,7 @@ Speech and Named Entities}
         \frametitle{NER output}
         
         \begin{block}{}
-            Citing high fuel prices, \color{blue}[ORG United Airlines] \color{black}said \color{blue} [TIME Friday] \color{black} it has increased fares by \color{blue} [MONEY \$ 6] \color{black} per round trip on flights to some cities also served by lower-cost carriers. \color{blue}[ORG American Airlines] \color{black}, a unit of \color{blue}[ORG AMR Corp.] \color{black}, immediately matched the move, spokesman \color{blue}[PER Tim Wagner] \color{black}said. \color{blue}[ORG United]\color{black}, a unit of \color{blue}[ORG UAL Corp.]\color{black}, said the increase took effect \color{blue}[TIME Thursday] \color{black} and applies to most routes where it competes against discount carriers, such as \color{blue}[LOC Chicago] \color{black} to \color{blue}[LOC Dallas] \color{black} and \color{blue}[ LOC Denver] \color{black}to \color{blue}[LOC San Francisco]\color{black}.
+            Citing high fuel prices, \color{blue}[\textbf{ORG}  United Airlines] \color{black} said \color{blue} [ \textbf{TIME} Friday] \color{black} it has increased fares by \color{blue} [\textbf{MONEY} \$ 6] \color{black} per round trip on flights to some cities also served by lower-cost carriers. \color{blue}[\textbf{ORG} American Airlines] \color{black}, a unit of \color{blue}[\textbf{ORG} AMR Corp.] \color{black}, immediately matched the move, spokesman \color{blue}[\textbf{PER} Tim Wagner] \color{black}said. \color{blue}[\textbf{ORG} United]\color{black}, a unit of \color{blue}[\textbf{ORG} UAL Corp.]\color{black}, said the increase took effect \color{blue}[\textbf{TIME} Thursday] \color{black} and applies to most routes where it competes against discount carriers, such as \color{blue}[\textbf{LOC} Chicago] \color{black} to \color{blue}[\textbf{LOC} Dallas] \color{black} and \color{blue}[ \textbf{LOC} Denver] \color{black}to \color{blue}[\textbf{LOC} San Francisco]\color{black}.
         \end{block}	
     \end{frame}
     %------------------------------------------------
@@ -159,8 +158,8 @@ Speech and Named Entities}
         \end{block}	
      \begin{block}{Type ambiguity}
          
-    \color{blue} [PER Washington] \color{black} was born into slavery on the farm of James Burroughs. \color{blue}[ORG Washington] \color{black}went up 2 games to 1 in the four-game series. \\ 
-    Blair arrived in \color{blue}[LOC Washington] \color{black} for what may well be his last state visit. In June, \color{blue}[GPE Washington] \color{black} passed a primary seatbelt law.
+    \color{blue} [\textbf{PER} Washington] \color{black} was born into slavery on the farm of James Burroughs. \color{blue}[\textbf{ORG} Washington] \color{black}went up 2 games to 1 in the four-game series. \\ 
+    Blair arrived in \color{blue}[\textbf{LOC} Washington] \color{black} for what may well be his last state visit. In June, \color{blue}[\textbf{GPE} Washington] \color{black} passed a primary seatbelt law.
      \end{block}
     \end{frame}
     %------------------------------------------------------------------
@@ -168,7 +167,7 @@ Speech and Named Entities}
     \onehalfspacing
     
         \frametitle{BIO Tagging}	
-        \color{blue}[PER Jane Villanueva] \color{black}of \color{blue}[ORG United]\color{black} , a unit of \color{blue}[ORG United Airlines Holding]\color{black} , said the fare applies to the \color{blue}[LOC Chicago]\color{black} route. 
+        \color{blue}[\textbf{PER} Jane Villanueva] \color{black}of \color{blue}[\textbf{ORG} United]\color{black} , a unit of \color{blue}[\textbf{ORG} United Airlines Holding]\color{black} , said the fare applies to the \color{blue}[\textbf{LOC} Chicago]\color{black} route. 
     \begin{center}
     \renewcommand{\arraystretch}{0.83} % Default value: 1
         \begin{tabular}{ |c|c| } 
@@ -231,7 +230,7 @@ Speech and Named Entities}
     \onehalfspacing
     
         \frametitle{BIO Tagging variants: IO and BIOES}	
-        \color{blue}[PER Jane Villanueva] \color{black}of \color{blue}[ORG United]\color{black} , a unit of \color{blue}[ORG United Airlines Holding]\color{black} , said the fare applies to the \color{blue}[LOC Chicago]\color{black} route. 
+        \color{blue}[\textbf{PER} Jane Villanueva] \color{black}of \color{blue}[\textbf{ORG} United]\color{black} , a unit of \color{blue}[\textbf{ORG} United Airlines Holding]\color{black} , said the fare applies to the \color{blue}[\textbf{LOC} Chicago]\color{black} route. 
     \begin{center}
     \renewcommand{\arraystretch}{0.83} % Default value: 1
         \begin{tabular}{ |c|c|c|c| } 
@@ -268,7 +267,7 @@ Speech and Named Entities}
         \end{itemize}
         \end{block}
     \end{frame}
-
+    
 \section{8.4 HMM Part-of-Speech Tagging} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
 \begin{frame}
 	\frametitle{Presentation Overview} % Slide title, remove this command for no title
