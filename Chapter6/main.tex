@@ -11,6 +11,8 @@
 \usepackage{setspace}
 \usepackage{xcolor}
 \usepackage{wrapfig,lipsum}
+\usepackage{etoolbox}
+\usepackage{tikz}
 \usetheme{Madrid}
 \useinnertheme{circles}
 
@@ -21,7 +23,7 @@
 \definecolor{UBCblue}{rgb}{0.04706, 0.13725, 0.26667} 
 \usecolortheme[named=UBCblue]{structure}
 %\usecolortheme{beaver}
-\title{CHAPTER8: Vector Semantics and
+\title{CHAPTER6: Vector Semantics and
 Embeddings}
 \author[CS221]{\textit{Instructor: PhD. Nguyen Thi Quy}\\ \bigskip \textbf{Group 5: 6.1 - 6.2}}
 \date{\today}
@@ -45,7 +47,12 @@ Embeddings}
     }%
     \vskip0pt%
 }
-
+\setbeamertemplate{section in toc}{%
+  \tikz[baseline=(tocseclabel.base)]{
+    \node[fill=structure.fg,rounded corners,inner sep=4pt, font=\large\bfseries] (tocseclabel) {\color{white}\inserttocsectionnumber};
+  }\hspace{0.5em}\large\bfseries\inserttocsection\vspace{0.3em}}
+  
+  
 \begin{document}
 \maketitle
 
@@ -68,7 +75,7 @@ Embeddings}
     %	PRESENTATION BODY SLIDES
     %----------------------------------------------------------------------------------------
     
-    \section{Word Meaning} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
+    \section{Lexical Semantics} % Sections are added in order to organize your presentation into discrete blocks, all sections and subsections are automatically output to the table of contents as an overview of the talk but NOT output in the presentation as separate slides
     %------------------------------------------------
     \begin{frame}
         \doublespacing
